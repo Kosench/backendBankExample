@@ -21,7 +21,9 @@ jobs:
         image: postgres
         # Указываем пароль для PostgreSQL
         env:
+          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: simple_bank
         # Настройки проверки здоровья, чтобы дождаться запуска PostgreSQL
         options: >-
           --health-cmd pg_isready
