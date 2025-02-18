@@ -13,6 +13,22 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+
+    services:
+      # Метка для доступа к контейнеру сервиса
+      postgres:
+        # Образ Docker Hub
+        image: postgres
+        # Указываем пароль для PostgreSQL
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Настройки проверки здоровья, чтобы дождаться запуска PostgreSQL
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v4
 
@@ -26,3 +42,6 @@ jobs:
 
       - name: Test
         run: go test -v ./...
+
+      - name: Run migrations
+        run: make migrateup
