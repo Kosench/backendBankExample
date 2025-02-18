@@ -26,7 +26,6 @@ stop:
 	docker rm $(CONTAINER_NAME)
 
 
-
 migrateup:
 	migrate -path db/migration -database "postgresql://postgres:postgres@localhost:5432/simple_bank?sslmode=disable" -verbose up
 
@@ -38,7 +37,11 @@ migratedown:
 sqlc:
 	sqlc generate
 
+
 test:
 	go test -v -cover ./...
 
-.PHONY: postgres createdb dropdb stop migrateup migratedown sqlc
+
+server:
+	go run main.go
+.PHONY: postgres createdb dropdb stop migrateup migratedown sqlc server
