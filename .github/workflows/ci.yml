@@ -18,7 +18,7 @@ jobs:
       # Метка для доступа к контейнеру сервиса
       postgres:
         # Образ Docker Hub
-        image: postgres
+        image: postgres:17
         # Указываем пароль для PostgreSQL
         env:
           POSTGRES_USER: postgres
@@ -46,6 +46,3 @@ jobs:
 
       - name: Test
         run: go test -v ./...
-
-      - name: Run migrations
-        run: make migrateup
