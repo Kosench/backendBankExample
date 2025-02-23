@@ -33,6 +33,11 @@ migrateup:
 migratedown:
 	migrate -path db/migration -database "postgresql://postgres:postgres@localhost:5432/simple_bank?sslmode=disable" -verbose down
 
+migrateup1:
+	migrate -path db/migration -database "postgresql://postgres:postgres@localhost:5432/simple_bank?sslmode=disable" -verbose up 1
+
+migratedown1:
+	migrate -path db/migration -database "postgresql://postgres:postgres@localhost:5432/simple_bank?sslmode=disable" -verbose down 1
 
 sqlc:
 	sqlc generate
@@ -48,4 +53,4 @@ server:
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/Kosench/backendBankExample/db/sqlc Store
 
-.PHONY: postgres createdb dropdb stop migrateup migratedown sqlc server
+.PHONY: postgres createdb dropdb stop migrateup migratedown migrateup1 migratedown1 sqlc server
