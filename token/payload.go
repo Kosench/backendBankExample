@@ -13,7 +13,10 @@ type Payload struct {
 	ExpiredAt time.Time `json:"expired_at"`
 }
 
-var ErrExpiredToken = errors.New("token has expired")
+var (
+	ErrExpiredToken = errors.New("token has expired")
+	ErrInvalidToken = errors.New("token is invalid")
+)
 
 func (payload Payload) Valid() error {
 	if time.Now().After(payload.ExpiredAt) {
