@@ -13,13 +13,28 @@ type PasetoMaker struct {
 }
 
 func (maker *PasetoMaker) CreateToken(username string, duration time.Duration) (string, error) {
-	//TODO implement me
-	panic("implement me")
+	payload, err := NewPayload(username, duration)
+	if err != nil {
+		return "", err
+	}
+
+	return maker.paseto.Encrypt(maker.symmetricKey, payload, nil)
 }
 
 func (maker *PasetoMaker) VerifyToken(token string) (*Payload, error) {
-	//TODO implement me
-	panic("implement me")
+	payload := &Payload{}
+
+	err := maker.paseto.Decrypt(token, maker.symmetricKey, payload, nil)
+	if err != nil {
+		return nil, ErrInvalidToken
+	}
+
+	err = payload.Valid()
+	if err != nil {
+		return nil, err
+	}
+
+	return payload, nil
 }
 
 func NewPasetoMaker(symmetricKey string) (Maker, error) {
