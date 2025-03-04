@@ -10,8 +10,7 @@ PORT = 5432
 
 # Запуск контейнера PostgreSQL
 postgres:
-	docker run --name $(CONTAINER_NAME) -e POSTGRES_PASSWORD=$(DB_PASSWORD) -p $(PORT):5432 -d postgres
-
+	docker run --name postgres --network bank-network -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -d postgres:latest
 # Создание базы данных
 createdb:
 	docker exec -it $(CONTAINER_NAME) createdb --username=$(DB_USER) --owner=$(DB_USER) $(DB_NAME)
