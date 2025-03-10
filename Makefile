@@ -1,5 +1,6 @@
 # Переменные
-CONTAINER_NAME = some-postgres
+#CONTAINER_NAME = some-postgres
+CONTAINER_NAME = postgres_bank
 
 DB_NAME = simple_bank
 
@@ -10,7 +11,7 @@ PORT = 5432
 
 # Запуск контейнера PostgreSQL
 postgres:
-	docker run --name postgres --network bank-network -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -d postgres:latest
+	docker run --name postgres_bank --network bank-network -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -d postgres:17.4-alpine3.21
 # Создание базы данных
 createdb:
 	docker exec -it $(CONTAINER_NAME) createdb --username=$(DB_USER) --owner=$(DB_USER) $(DB_NAME)
