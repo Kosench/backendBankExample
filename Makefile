@@ -53,4 +53,10 @@ server:
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/Kosench/backendBankExample/db/sqlc Store
 
-.PHONY: postgres createdb dropdb stop migrateup migratedown migrateup1 migratedown1 sqlc server
+db_docs:
+	dbdocs build doc/db.dbml
+
+db_schema:
+	dbml2sql --postgres -o doc/schema.sql doc/db.dbml
+
+.PHONY: postgres createdb dropdb stop migrateup migratedown migrateup1 migratedown1 sqlc server db_docs db_schema
