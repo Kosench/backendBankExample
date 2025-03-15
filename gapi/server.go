@@ -10,9 +10,9 @@ import (
 
 type Server struct {
 	pb.UnimplementedSimpleBankServer
-	config util.Config
-	store  db.Store
-	token  token.Maker
+	config     util.Config
+	store      db.Store
+	tokenMaker token.Maker
 }
 
 func NewServer(config util.Config, store db.Store) (*Server, error) {
@@ -22,9 +22,9 @@ func NewServer(config util.Config, store db.Store) (*Server, error) {
 	}
 
 	server := &Server{
-		config: config,
-		store:  store,
-		token:  tokenMaker,
+		config:     config,
+		store:      store,
+		tokenMaker: tokenMaker,
 	}
 
 	return server, nil
