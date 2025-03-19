@@ -1,5 +1,5 @@
 package tools
 
-import (
-	_ "github.com/rakyll/statik"
-)
+//import (
+//	_ "github.com/rakyll/statik"
+//)
