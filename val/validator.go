@@ -43,7 +43,7 @@ func ValidateEmail(value string) error {
 }
 
 var (
-	isValidFullName = regexp.MustCompile(`^[a-zA-Z\\s]+$`).MatchString
+	isValidFullName = regexp.MustCompile(`^[a-zA-Z\s]+$`).MatchString
 )
 
 func ValidateFullName(value string) error {
