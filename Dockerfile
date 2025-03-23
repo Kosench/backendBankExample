@@ -13,9 +13,6 @@ COPY start.sh .
 COPY wait-for.sh .
 COPY db/migration ./db/migration
 
-RUN apk add --no-cache bash && \
-    chmod +x /app/start.sh /app/wait-for.sh
-
 EXPOSE 8080 9090
 CMD ["/app/main"]
 ENTRYPOINT [ "/app/start.sh" ]
