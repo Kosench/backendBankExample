@@ -11,7 +11,7 @@ COPY --from=builder /app/main .
 COPY app.env .
 COPY start.sh .
 COPY wait-for.sh .
-COPY db/migration ./migration
+COPY db/migration ./db/migration
 
 RUN apk add --no-cache bash && \
     chmod +x /app/start.sh /app/wait-for.sh
