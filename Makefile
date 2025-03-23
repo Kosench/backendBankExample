@@ -70,4 +70,7 @@ proto:
 		   statik -src=./doc/swagger -dest=./doc
 evans:
 	evans --host 127.0.0.1 --port 9090 -r repl --package pb
-.PHONY: postgres createdb dropdb stop migrateup migratedown migrateup1 migratedown1 sqlc server db_docs db_schema proto evans
+
+redis:
+	docker run --name redis -p 6379:6379 -d redis:7.4.2-alpine
+.PHONY: postgres createdb dropdb stop migrateup migratedown migrateup1 migratedown1 sqlc server db_docs db_schema proto evans redis
