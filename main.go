@@ -7,6 +7,7 @@ import (
 	db "github.com/Kosench/backendBankExample/db/sqlc"
 	_ "github.com/Kosench/backendBankExample/doc/statik"
 	"github.com/Kosench/backendBankExample/gapi"
+	"github.com/Kosench/backendBankExample/mail"
 	"github.com/Kosench/backendBankExample/pb"
 	"github.com/Kosench/backendBankExample/util"
 	"github.com/Kosench/backendBankExample/worker"
@@ -48,7 +49,7 @@ func main() {
 
 	redisOpt := asynq.RedisClientOpt{Addr: config.RedisAddress}
 	taskDistributor := worker.NewRedisTaskDistributor(redisOpt)
-	go runTaskProcessor(redisOpt, store)
+	go runTaskProcessor(config, redisOpt, store)
 	go runGatewayServer(config, store, taskDistributor)
 	runGrpcServer(config, store, taskDistributor)
 	//runGinServer(config, store)
@@ -152,12 +153,12 @@ func runDBMigration(migrationURL string, dbSource string) {
 	log.Info().Msg("db migrated successfully")
 }
 
-func runTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store) {
-	taskProcessor := worker.NewRedisTaskProcessor(redisOpt, store)
+func runTaskProcessor(config util.Config, redisOpt asynq.RedisClientOpt, store db.Store) {
+	mailer := mail.NewGmailSender(config.EmailSenderName, config.EmailSenderAddress, config.EmailSenderPassword)
+	taskProcessor := worker.NewRedisTaskProcessor(redisOpt, store, mailer)
 	log.Info().Msg("start task processor")
 	err := taskProcessor.Start()
 	if err != nil {
 		log.Fatal().Err(err).Msg("failed to start task processor")
 	}
-
 }

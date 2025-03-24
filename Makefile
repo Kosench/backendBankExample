@@ -25,10 +25,8 @@ stop:
 	docker stop $(CONTAINER_NAME)
 	docker rm $(CONTAINER_NAME)
 
-
 migrateup:
 	migrate -path db/migration -database "postgresql://postgres:postgres@localhost:5432/simple_bank?sslmode=disable" -verbose up
-
 
 migratedown:
 	migrate -path db/migration -database "postgresql://postgres:postgres@localhost:5432/simple_bank?sslmode=disable" -verbose down
@@ -42,10 +40,8 @@ migratedown1:
 sqlc:
 	sqlc generate
 
-
 test:
-	go test -v -cover ./...
-
+	go test -v -cover -short ./...
 
 server:
 	go run main.go
@@ -73,4 +69,7 @@ evans:
 
 redis:
 	docker run --name redis -p 6379:6379 -d redis:7.4.2-alpine
-.PHONY: postgres createdb dropdb stop migrateup migratedown migrateup1 migratedown1 sqlc server db_docs db_schema proto evans redis
+
+new_migration:
+	migrate create -ext sql -dir db/migration -seq $(name)
+.PHONY: postgres createdb dropdb stop migrateup migratedown migrateup1 migratedown1 sqlc server db_docs db_schema proto evans redis new_migration
